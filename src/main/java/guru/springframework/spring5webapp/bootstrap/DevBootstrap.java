@@ -7,8 +7,10 @@ import org.springframework.stereotype.Component;
 
 import guru.springframework.spring5webapp.daos.AuthorDao;
 import guru.springframework.spring5webapp.daos.BookDao;
+import guru.springframework.spring5webapp.daos.PublisherDao;
 import guru.springframework.spring5webapp.model.Author;
 import guru.springframework.spring5webapp.model.Book;
+import guru.springframework.spring5webapp.model.Publisher;
 
 @Component
 public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
@@ -18,6 +20,9 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 	
 	//@Autowired
 	private BookDao bookDao;
+	
+	@Autowired
+	private PublisherDao publisherDao;
 	
 	// En teoría, hasta donde sé, ésto hace las veces de @Autowired, por eso está comentado @Autowired arriba.
 	// En pruebas.
@@ -29,9 +34,17 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 	
 	private void initData() {
 		
+		// Publicadores
+		
+		Publisher publisher1 = new Publisher("Harper Collins Iberica","Calle de Núñez de Balboa, 56, 28001 Madrid");
+		Publisher publisher2 = new Publisher("Gigamesh", "Calle Bailén, 8, 8010 Barcelona");
+		publisherDao.save(publisher1);
+		publisherDao.save(publisher2);
+		
+		
 		// Alvaro creación de autor y libro
 		Author alvaro = new Author("Alvaro", "Gonzalez");
-		Book libroAlvaro1 = new Book("La persistencia del ser", "1111", "Harper Collins Iberica");
+		Book libroAlvaro1 = new Book("La persistencia del ser", "1111", publisher1);
 		alvaro.getBooks().add(libroAlvaro1);
 		libroAlvaro1.getAuthors().add(alvaro);
 		
@@ -42,7 +55,7 @@ public class DevBootstrap implements ApplicationListener<ContextRefreshedEvent>{
 		
 		// Carlos creación de autor y libro
 		Author carlos = new Author("Carlos", "Ramirez");
-		Book libroCarlos1 = new Book("Dessarollo de interfaces humanas en Python 3.6", "2222", "Gigamesh");
+		Book libroCarlos1 = new Book("Dessarollo de interfaces humanas en Python 3.6", "2222", publisher2);
 		carlos.getBooks().add(libroCarlos1);
 		libroCarlos1.getAuthors().add(carlos);
 		
