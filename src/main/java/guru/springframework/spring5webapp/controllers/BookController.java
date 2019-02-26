@@ -9,13 +9,16 @@ import guru.springframework.spring5webapp.daos.BookDao;
 @Controller
 public class BookController {
 
+		//@Autowired
 		private BookDao bookDao;
 		
+		
+		//Ésto esbásicamente lo mismo que autowired,pero o se pone una o se pone otra.
 		public BookController(BookDao bookDao) {
 			this.bookDao = bookDao;
 		}
 		
-		@RequestMapping
+		@RequestMapping("/books")
 		public String getBooks(Model model) {
 			model.addAttribute("books", bookDao.findAll());
 			return "books";
